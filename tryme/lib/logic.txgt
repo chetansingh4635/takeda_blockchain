@@ -1,0 +1,121 @@
+​
+let NS = 'mp.takeda.tryme';
+
+async function onDeregisterUserBySite(tx){
+  let subjectAsset = await getAssetRegistry(NS + '.SubjectAsset');
+  let assetExist = await subjectAsset.exists(tx.Email);
+  if(assetExist){
+    console.log("User Asset Exist");
+    let subjectItem =  await subjectAsset.get(tx.Email);
+    
+    let site = await getParticipantRegistry(NS + '.Site');
+    let siteItem = await site.get('0000');
+    
+    subjectItem.Site = siteItem;
+    await subjectAsset.update(subjectItem);
+  }
+  else{
+    throw new Error("User Asset Don't Exist");
+  }
+ }
+
+
+async function onDeregisterByUser(tx){
+  let subjectAsset = await getAssetRegistry(NS + '.SubjectAsset');
+  let assetExist = await subjectAsset.exists(tx.Email);
+  if(assetExist){
+    console.log("Asset Exists");
+    let subjectItem =  await subjectAsset.get(tx.Email);
+    subjectItem.Email = (Math.random()*100000000).toFixed();
+    
+    let participantRegistry = await getParticipantRegistry(NS + '.Subject');
+    let participant = await participantRegistry.get('Deleted');
+    subjectItem.Subject = participant;
+    let paticipant = await getParticipantRegistry(NS + '.Subject');
+    let participantExist = await paticipant.exists(tx.Email);
+    if (participantExist){
+      console.log("Participant Exist, removing participant and updaating subject");
+      await subjectAsset.update(subjectItem);
+      await paticipant.remove(tx.Email);
+    }
+    else {
+      throw new Error("Participent Do not exist. Data Missing");
+    }
+  }
+  else{
+    throw new Error("Error Subject Do not Exist, Invalid Transaction");
+  }
+ }
+
+async function onLoginUser(tx){
+  let participantRegistry = await getParticipantRegistry(NS + '.Subject');
+  let participantExist = await participantRegistry.exists(tx.Email);
+   
+     let clientRegistry = await getParticipantRegistry(NS + '.Client');
+     let client = await clientRegistry.exists(tx.Client);
+   if(client){
+     if(participantExist){
+       console.log("Participant Exist");
+       let participant = await participantRegistry.get(tx.Email);
+       if(participant.Id === tx.Token){
+         console.log("Token Match");
+         console.log("======> CHeck for Subject");
+         let participantAsset = await getAssetRegistry(NS + '.SubjectAsset');
+         let participantAssetExist = await participantAsset.exists(tx.Email);
+         if(participantAssetExist){
+           console.log("Successfully LoggedIn");
+         }
+         else{
+           try{
+             console.log("Subject Asset Do not Exist");
+             let subject = getFactory().newResource(NS, 'SubjectAsset', tx.Email);
+             subject.Email = tx.Email;
+             //subject.Client.Id = tx.Client;
+             subject.Subject = participant;
+             participantAsset.add(subject);
+             console.log("Successfully LoggedIn");
+           }
+           catch(e){
+             throw new Error(e);
+           }
+         }
+       }
+       else{
+         throw new Error("Error Participant Email/Pasword don't match, Login Failed");
+       }
+     }
+     else{
+       throw new Error("Error Participant Do not exist, Login Failed");
+     }
+   }
+   else{
+     throw new Error('Cannot Find Trial');
+   }
+  }
+
+async function onSignUpUser(tx){
+    let subject  = await getFactory().newResource(NS, 'Subject', tx.Email);
+    subject.Id = tx.Token;
+    subject.Email = tx.Email;
+    console.log('------------------------>',subject);
+    let participantRegistry = await getParticipantRegistry(NS + '.Subject');
+    let participant = await participantRegistry.exists(tx.Email);
+  
+  
+    let clientRegistry = await getParticipantRegistry(NS + '.Client');
+    let client = await clientRegistry.exists(tx.Client);
+    console.log(participant, client);
+    if(client){
+      if(!participant){
+          await participantRegistry.add(subject);
+          console.log("Identity Issued ----------> Participant Added");
+      }
+      else{
+          throw new Error('Participant Already Exists');
+          console.log('-------------------------------------------> Participant Exist');
+      }
+    }
+    else{
+      throw new Error('Cannot Find Trial');
+    }
+}

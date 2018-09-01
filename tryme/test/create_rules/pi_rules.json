@@ -1,0 +1,210 @@
+[
+    {   "_comment" : "-----------Cannot  add SUPER ADMIN ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "alice@tryme"
+        },
+        "expect" : false
+    }
+    ,{
+        "_comment" : "-----------Cannot  add ADMIN ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Admin",
+        "userType" : "ADMIN",
+        "data" : {
+            "UserEmail" : "alice@tryme",
+            "UserTrial" : []
+        },
+        "expect" : false
+    }
+    ,{  "_comment" : "-----------Cannot  add CRO ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    }
+    ,{  "_comment" : "-----------Cannot  add PI ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    }
+    ,{  "_comment" : "-----------Cannot  add SPONSOR ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false
+    }
+    ,{  "_comment" : "-----------Cannot  add SITE COORDINATOR ----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "SiteCoordinator",
+        "userType" : "SITE COORDINATOR",
+        "data" : {
+            "UserEmail" : "alice@tryme",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    }
+    ,{
+        "_comment" : "-----------Cannot  add  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            
+            "UserEmail" : "patient@tryme",
+            
+            "UserAccess" : "QUALIFIED"
+            
+            
+        },
+        "expect" : false
+    }
+
+
+    ,
+
+    {
+        "_comment" : "-----------Can  add  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "PI1",
+        "resource" : "SubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "Subject Asset",
+        "data" : {
+            
+            "SubjectId" : "6666",
+           
+            "Email" : "patient@tryme"
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : true
+    }
+    ,
+
+    {
+        "_comment" : "-----------Can   add  Const Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "PI1",
+        "resource" : "ConstSubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "ConstSubjectAsset",
+        "data" : {
+            
+            "SubjectId" : "6666",
+            "Secret" : "8888",
+            "CreatedBy" : "PI",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456",
+            "Subject": "patient@tryme"
+           
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : true
+    }
+    ,
+
+    {
+        "_comment" : "-----------can not add Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false
+
+    },
+    {
+        "_comment" : "----------can not add Site Asset-----------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456"
+        },
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "----------can add Document---------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Document",
+        "userType" : "Document",
+        "data" : {
+            "DocumentId" : "Document2",
+            "Type":"ICF_OFFICIAL",
+            "Version" : "0.1",
+            "Language": "English",
+            "DocumentLocation" : "NY",
+            "Hash":"jhgsaiyd7376476hushyui873"
+        },
+        "expect" : true
+        
+    }
+    ,
+    {
+        "_comment" : "----------cannot add same Document---------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "PI1",
+        "resource" : "Document",
+        "userType" : "Document",
+        "data" : {
+            "DocumentId" : "Document2",
+            "Type":"ICF_OFFICIAL",
+            "Version" : "0.1",
+            "Language": "English",
+            "DocumentLocation" : "NY",
+            "Hash":"jhgsaiyd7376476hushyui873"
+        },
+        "expect" : false,
+        "recursive" : true
+        
+    }
+]

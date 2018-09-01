@@ -1,0 +1,149 @@
+[
+    {
+        "_comment": "----cannot Update CRO------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "----cannot Update PI------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "----cannot Update Superadmin------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "SU1"
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "---- cannot Update Sponsor------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false
+    },
+    {
+        "_comment" : "-----------Cannot Update  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            
+            "UserEmail" : "patient22@tryme",
+            "UserAccess" :"PW"
+            
+            
+            
+            
+            
+        },
+        "expect" : false
+    }
+    ,
+
+    {
+        "_comment" : "-----------Can  not Update  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "SubjectAsset",
+        "userType" : "SubjectAsset",
+        "data" : {
+            "SubjectId" : "patient",
+            "Email" : "patient@tryme"
+            
+        },
+        "expect" : false
+    }
+    
+
+    ,
+
+    {
+        "_comment" : "----------cannot Update Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false
+
+    },
+    {
+        "_comment" : "----------cannot Update site-----------",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456" 
+        },
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "----------can not Update Document---------",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "patient02",
+        "resource" : "Document",
+        "userType" : "Document",
+        "data" : {
+            "DocumentId" : "Document1",
+            "Type":"ICF_OFFICIAL",
+            "Version" : "0.1",
+            "Language": "English",
+            "DocumentLocation" : "NY",
+            "Hash":"jhgsaiyd7376476hushyui873"
+        },
+        "expect" : false
+        
+    }
+
+
+    
+]

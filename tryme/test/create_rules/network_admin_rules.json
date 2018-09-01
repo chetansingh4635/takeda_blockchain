@@ -1,0 +1,175 @@
+[
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "alice@tryme"
+        },
+        "expect" : true
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "alice@tryme"
+        },
+        "expect" : false,
+        "recursive" : true
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "Admin",
+        "userType" : "ADMIN",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "SiteCoordinator",
+        "userType" : "SITE COORDINATOR",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    }
+    ,{
+        "_comment" : "-----------Cannot  add  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            "UserEmail" : "patient@tryme",
+            "UserAccess" : "PW"
+        },
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "-----------can not add Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false
+
+    },
+    {
+        "_comment" : "----------can not add Site Asset-----------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "admin",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId":"PRA",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456"
+        },
+        "expect" : false
+    }
+
+    ,
+    {
+        "_comment" : "-----------Can  not add  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "admin",
+        "resource" : "SubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "Subject Asset",
+        "data" : {
+            
+            "SubjectId" : "2222",
+            "Email" : "patient@tryme"
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : false
+    }
+
+    , 
+    {
+        "_comment" : "-----------Can  not add  Const Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "admin",
+        "resource" : "ConstSubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "ConstSubjectAsset",
+        "data" : {
+            
+            "SubjectId" : "2222",
+            "Secret" : "8888",
+            "CreatedBy" : "CRO",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456",
+            "Subject": "patient@tryme"
+           
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : false
+    }
+    
+]

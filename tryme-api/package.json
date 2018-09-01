@@ -1,0 +1,41 @@
+{
+  "name": "tryme",
+  "version": "0.0.27",
+  "description": "TryMe Trial App",
+  "scripts": {
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "test": "nyc mocha -t 0 test/*.js && cucumber-js",
+    "start": "node api.js"
+  },
+  "author": "Pranay Katiyar",
+  "email": "pranay.katiyar@mobileprogramming.net",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "composer-admin": "^0.19.13",
+    "composer-cli": "^0.19.13",
+    "composer-client": "^0.19.13",
+    "composer-common": "^0.19.13",
+    "cors": "^2.8.4",
+    "express": "~4.16.1",
+    "jsonwebtoken": "^8.2.2",
+    "request": "^2.87.0",
+    "sha256": "^0.2.0"
+  },
+  "devDependencies": {
+    "composer-admin": "^0.19.13",
+    "composer-cli": "^0.19.13",
+    "composer-client": "^0.19.13",
+    "composer-common": "^0.19.13",
+    "composer-connector-embedded": "^0.19.13",
+    "composer-cucumber-steps": "^0.19.13",
+    "chai": "latest",
+    "chai-as-promised": "latest",
+    "cucumber": "^2.2.0",
+    "eslint": "latest",
+    "nyc": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}

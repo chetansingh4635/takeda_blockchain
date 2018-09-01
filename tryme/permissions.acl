@@ -1,0 +1,656 @@
+/*
+Subject ACL
+*/
+
+/**rule SubjectToItsTrial{
+  description: "Subject has access to Read its Trial"
+  participant(p): "mp.takeda.tryme.Subject"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.Trial.TrialId == r.TrialId )
+  action: ALLOW
+}**/
+
+rule SubjectToLogin{
+  description: "Subject has access to Login Transaction"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.Login"
+  action: ALLOW
+}
+
+rule SubjectToESig{
+  description: "Subject has access to ESignature Transaction"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.ESignature"
+  action: ALLOW
+}
+
+rule SubjectToDeregister{
+  description: "Subject has access to Deregister Itself"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.DeregisterByUser"
+  action: ALLOW
+}
+
+rule SubjectToChangePassword{
+  description: "Subject has access to Change Password"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.ChangePassword"
+  action: ALLOW
+}
+rule SubjectToForgotPassword{
+  description: "Subject has access to Change Password"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.ForgotPassword"
+  action: ALLOW
+}
+
+rule SubjectToItself{
+  description: "Subject has access to its Participant"
+  participant(p): "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource(r): "mp.takeda.tryme.Subject"
+  condition: (p.getIdentifier() == r.getIdentifier() )
+  action: ALLOW
+}
+
+rule SubjectToSubjectAsset{
+  description: "Subject has access to its Asset"
+  participant(p): "mp.takeda.tryme.Subject"
+  operation: UPDATE, READ
+  resource(r): "mp.takeda.tryme.SubjectAsset"
+  condition: (p.UserEmail == r.Email )
+  action: ALLOW
+}
+
+rule SubjectToConstSubjectAsset{
+  description: "Subject has access to its  Const Asset"
+  participant(p): "mp.takeda.tryme.Subject"
+  operation: READ
+  resource(r): "mp.takeda.tryme.ConstSubjectAsset"
+  condition: (p.UserEmail == r.Subject.Email )
+  action: ALLOW
+}
+
+rule SubjectToAllAsset{
+  description: "Subject Have No access to Any Asset"
+  participant: "mp.takeda.tryme.Subject"
+  operation: ALL
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/*
+Sponsor Rules
+*/
+
+rule SponsorToDocumentRead{
+   description: "Sponsor Coordinator Can Read Trial Specific Docs"
+   participant(p): "mp.takeda.tryme._Sponsor"
+   operation: READ
+   resource(r): "mp.takeda.tryme.Document"
+   condition: ( p.UserTrial.indexOf(r.RelatedTrial.TrialId) != -1 )
+   action: ALLOW
+ }
+
+rule SponsorToSite{
+   description: "Sponsor Coordinator Can Read Trial Specific Sites"
+   participant(p): "mp.takeda.tryme._Sponsor"
+   operation: READ
+   resource(r): "mp.takeda.tryme.Site"
+   condition: ( p.UserTrial.indexOf(r.Trial.TrialId) > -1 )
+   action: ALLOW
+ }
+
+rule SponsorToTrial{
+  description: "CRO Read Trial"
+  participant(p): "mp.takeda.tryme._Sponsor"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.UserTrial.indexOf(r.TrialId) != -1)
+  action: ALLOW
+}
+
+rule SponsorToCRO{
+  description: "Admin can read all CRO"
+  participant: "mp.takeda.tryme._Sponsor"
+  operation: READ
+  resource: "mp.takeda.tryme._CRO"
+  action: ALLOW
+}
+
+rule SponsorToPI{
+  description: "Admin can read all PI"
+  participant: "mp.takeda.tryme._Sponsor"
+  operation: READ
+  resource: "mp.takeda.tryme._PI"
+  action: ALLOW
+}
+
+rule SponsorToSiteCoordinator{
+  description: "Admin can read all SiteCoordinator"
+  participant: "mp.takeda.tryme._Sponsor"
+  operation: READ
+  resource: "mp.takeda.tryme._SiteCoordinator"
+  action: ALLOW
+}
+
+rule SponsorToAllAsset{
+  description: "Sponsor Have No access to Trial Asset"
+  participant: "mp.takeda.tryme._Sponsor"
+  operation: READ, CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/*
+CRO and PI and and Site Coordinator rules
+*/
+
+rule CROToSite{
+  description: "CRO Can Read Assign Sites"
+  participant(p): "mp.takeda.tryme._CRO"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Site"
+  condition: ( p.UserTrial.indexOf(r.Trial.TrialId) > -1 )
+  action: ALLOW
+}
+
+rule PIToSite{
+  description: "PI Can Read Assign Sites"
+  participant(p): "mp.takeda.tryme._PI"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Site"
+  condition: ( p.UserTrial.indexOf(r.Trial.TrialId) > -1 )
+  action: ALLOW
+}
+
+rule SCToSite{
+  description: "Site Coordinator Can Read Assign Sites"
+  participant(p): "mp.takeda.tryme._SiteCoordinator"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Site"
+  condition: ( p.UserTrial.indexOf(r.Trial.TrialId) > -1 )
+  action: ALLOW
+}
+
+rule CROToTrial{
+  description: "CRO Read Trial"
+  participant(p): "mp.takeda.tryme._CRO"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.UserTrial.indexOf(r.TrialId) != -1)
+  action: ALLOW
+}
+
+rule PIToTrial{
+  description: "PI Read Trial"
+  participant(p): "mp.takeda.tryme._PI"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.UserTrial.indexOf(r.TrialId) != -1)
+  action: ALLOW
+}
+
+rule SCToTrial{
+  description: "Site Coordinator Read Trial"
+  participant(p): "mp.takeda.tryme._SiteCoordinator"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.UserTrial.indexOf(r.TrialId) != -1)
+  action: ALLOW
+}
+
+rule SCToDocumentRead{
+   description: "Site Coordinator Can Read Trial Specific Docs"
+   participant(p): "mp.takeda.tryme._SiteCoordinator"
+   operation: READ
+   resource(r): "mp.takeda.tryme.Document"
+   condition: ( p.UserTrial.indexOf(r.RelatedTrial.TrialId) != -1 )
+   action: ALLOW
+ }
+
+rule PIToDocumentRead{
+   description: "PI Can Read Trial Specific Docs"
+   participant(p): "mp.takeda.tryme._PI"
+   operation: READ
+   resource(r): "mp.takeda.tryme.Document"
+   condition: ( p.UserTrial.indexOf(r.RelatedTrial.TrialId) != -1 )
+   action: ALLOW
+ }
+
+ rule CROToDocumentRead{
+   description: "CRO Can Read Trial Specific Docs"
+   participant(p): "mp.takeda.tryme._CRO"
+   operation: READ
+   resource(r): "mp.takeda.tryme.Document"
+   condition: ( p.UserTrial.indexOf(r.RelatedTrial.TrialId) != -1 )
+   action: ALLOW
+ }
+
+rule CROToDocument{
+  description: "CRO Can Create Subject Asset"
+  participant: "mp.takeda.tryme._CRO"
+  operation: CREATE
+  resource: "mp.takeda.tryme.Document"
+  action: ALLOW
+}
+
+rule PIToDocument{
+  description: "PI Can Create Subject Asset"
+  participant: "mp.takeda.tryme._PI"
+  operation: CREATE
+  resource: "mp.takeda.tryme.Document"
+  action: ALLOW
+}
+
+rule SCToDocument{
+  description: "Site Coordinator Can Create Subject Asset"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: CREATE
+  resource: "mp.takeda.tryme.Document"
+  action: ALLOW
+}
+
+rule CROToQualifySubject{
+  description: "CRO Can Create Subject Asset"
+  participant: "mp.takeda.tryme._CRO"
+  operation: ALL
+  resource: "mp.takeda.tryme.QualifySubject"
+  action: ALLOW
+}
+
+rule PIToQualifySubject{
+  description: "PI Can Create Subject Asset"
+  participant: "mp.takeda.tryme._PI"
+  operation: ALL
+  resource: "mp.takeda.tryme.QualifySubject"
+  action: ALLOW
+}
+
+rule PIToAssignSite{
+  description: "PI Can Create Assign Site"
+  participant: "mp.takeda.tryme._PI"
+  operation: ALL
+  resource: "mp.takeda.tryme.AssignSite"
+  action: ALLOW
+}
+
+rule CROToAssignSite{
+  description: "CRO Can Create Assign Site"
+  participant: "mp.takeda.tryme._CRO"
+  operation: ALL
+  resource: "mp.takeda.tryme.AssignSite"
+  action: ALLOW
+}
+
+rule SCToQualifySubject{
+  description: "Site Coordinator Can Create Subject Asset"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: ALL
+  resource: "mp.takeda.tryme.QualifySubject"
+  action: ALLOW
+}
+
+rule SCToWetSign{
+  description: "SC Can Create Wet Sign Transaction"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: ALL
+  resource: "mp.takeda.tryme.WetSignature"
+  action: ALLOW
+}
+
+rule CROToConstSubjectRead{
+  description: "CRO Can Read Const Subject"
+  participant(p): "mp.takeda.tryme._CRO"
+  operation: READ
+  resource(r): "mp.takeda.tryme.ConstSubjectAsset"
+  condition: ( p.OrganizationId == r.OrganizationId && ( r.CreatedBy == "CRO" || r.CreatedBy == "PI" || r.CreatedBy == "SITE_COORDINATOR") )
+  action: ALLOW
+}
+rule CROToConstSubject{
+  description: "CRO Can Create Const Subject"
+  participant: "mp.takeda.tryme._CRO"
+  operation: CREATE
+  resource: "mp.takeda.tryme.ConstSubjectAsset"
+  action: ALLOW
+}
+
+
+rule PIToConstSubjectRead{
+  description: "PI Can Read Const Subject"
+  participant(p): "mp.takeda.tryme._PI"
+  operation: READ
+  resource(r): "mp.takeda.tryme.ConstSubjectAsset"
+  condition: ( p.OrganizationId == r.OrganizationId && ( r.CreatedBy == "CRO" || r.CreatedBy == "PI" || r.CreatedBy == "SITE_COORDINATOR") )
+  action: ALLOW
+} 
+
+rule PIToConstSubject{
+  description: "PI Can Create Const Subject"
+  participant: "mp.takeda.tryme._PI"
+  operation: CREATE
+  resource: "mp.takeda.tryme.ConstSubjectAsset"
+  action: ALLOW
+}
+
+rule SCToConstSubjectRead{
+  description: "SC Can Read Const Subject"
+  participant(p): "mp.takeda.tryme._SiteCoordinator"
+  operation: READ
+  resource(r): "mp.takeda.tryme.ConstSubjectAsset"
+  condition: (  r.CreatedBy == "CRO" || r.CreatedBy == "PI" || r.CreatedBy == "SITE_COORDINATOR" )
+  action: ALLOW
+} 
+
+rule SCToConstSubject{
+  description: "SiteCoordinator Can Create Const Subject"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: CREATE, READ
+  resource: "mp.takeda.tryme.ConstSubjectAsset"
+  action: ALLOW
+}
+
+rule CROToSubjectAsset{
+  description: "CRO Can Create Subject Asset"
+  participant: "mp.takeda.tryme._CRO"
+  operation: CREATE, READ, UPDATE
+  resource: "mp.takeda.tryme.SubjectAsset"
+  action: ALLOW
+}
+
+rule PIToSubjectAsset{
+  description: "PI Can Create Subject Asset"
+  participant: "mp.takeda.tryme._PI"
+  operation: CREATE, READ, UPDATE
+  resource: "mp.takeda.tryme.SubjectAsset"
+  action: ALLOW
+}
+
+
+rule SCToSubjectAsset{
+  description: "Site Coordinator Can Create Subject Asset"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: CREATE, READ, UPDATE
+  resource: "mp.takeda.tryme.SubjectAsset"
+  action: ALLOW
+}
+
+rule PIToSelf{
+  description: "PI Has full access to self"
+  participant(p): "mp.takeda.tryme._PI"
+  operation: READ, UPDATE
+  resource(r): "mp.takeda.tryme._PI"
+  condition: ( p.getIdentifier() == r.getIdentifier() )
+  action: ALLOW
+}
+
+rule PIToAllAsset{
+  description: "PI Have No access to All Assets"
+  participant: "mp.takeda.tryme._PI"
+  operation: READ, CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+rule SCToSelf{
+  description: "SiteCoordinator Has full access to self"
+  participant(p): "mp.takeda.tryme._SiteCoordinator"
+  operation: READ, UPDATE
+  resource(r): "mp.takeda.tryme._SiteCoordinator"
+  condition: ( p.getIdentifier() == r.getIdentifier() )
+  action: ALLOW
+}
+
+rule SiteCoordinatorToAllAsset{
+  description: "SiteCoordinator Have No access to All Assets"
+  participant: "mp.takeda.tryme._SiteCoordinator"
+  operation: READ, CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+
+rule CROToSelf{
+  description: "CRO Has full access to self"
+  participant(p): "mp.takeda.tryme._CRO"
+  operation: READ, UPDATE
+  resource(r): "mp.takeda.tryme._CRO"
+  condition: ( p.getIdentifier() == r.getIdentifier() )
+  action: ALLOW
+}
+
+rule CROToAllAsset{
+  description: "CRO Have No access to Trial Asset"
+  participant: "mp.takeda.tryme._CRO"
+  operation: READ, CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/*
+Admin Rules
+*/
+
+// rule AdminToSelf{
+//   description: "Admin Can read update itself"
+//   participant: "mp.takeda.tryme.SuperAdmin"
+//   operation: ALL
+//   resource: "mp.takeda.tryme.SuperAdmin"
+//   action: ALLOW
+// }
+
+
+
+rule AdminToSignup{
+  description: "Admin can create SignUp transaction"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme.SignUp"
+  action: ALLOW
+}
+
+rule AdminToTrial{
+  description: "Admin can create all Trials"
+  participant: "mp.takeda.tryme._Admin"
+  operation: CREATE
+  resource: "mp.takeda.tryme.Trial"
+  action: ALLOW
+}
+
+rule AdminToTrialRead{
+  description: "Admin Can read only its trials"
+  participant(p): "mp.takeda.tryme._Admin"
+  operation: READ
+  resource(r): "mp.takeda.tryme.Trial"
+  condition: (p.UserTrial.indexOf(r.TrialId) != -1)
+  action: ALLOW
+}
+
+
+
+rule AdminToSite{
+  description: "Admin all access to other admins"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme.Site"
+  action: ALLOW
+}
+
+rule AdminToSubject{
+  description: "Admin all access to other admins"
+  participant: "mp.takeda.tryme._Admin"
+  operation: READ, CREATE
+  resource: "mp.takeda.tryme.Subject"
+  action: ALLOW
+}
+
+rule AdminToAdmin{
+  description: "Admin all access to other admins"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme._Admin"
+  action: ALLOW
+}
+
+rule AdminToCRO{
+  description: "Admin all access to CRO"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme._CRO"
+  action: ALLOW
+}
+
+rule AdminToPI{
+  description: "Admin all access to PI"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme._PI"
+  action: ALLOW
+}
+
+rule AdminToSponsor{
+  description: "Admin all access to Sponsor"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme._Sponsor"
+  action: ALLOW
+}
+
+rule AdminToSiteCoordinator{
+  description: "Admin all access to SiteCoordinator"
+  participant: "mp.takeda.tryme._Admin"
+  operation: ALL
+  resource: "mp.takeda.tryme._SiteCoordinator"
+  action: ALLOW
+}
+
+rule AdminToSubjectAsset{
+  description: "Admin all access to SubjectAsset"
+  participant: "mp.takeda.tryme._Admin"
+  operation: READ
+  resource: "mp.takeda.tryme.SubjectAsset"
+  action: ALLOW
+}
+
+rule AdminToConstSubjectAsset{
+  description: "Admin all access to ConstSubjectAsset"
+  participant(p): "mp.takeda.tryme._Admin"
+  operation: READ
+  resource(r): "mp.takeda.tryme.ConstSubjectAsset"
+  condition: (p.UserTrial.indexOf(r.Trial.TrialId) != -1)
+  action: ALLOW
+}
+
+// rule AdminToSubject{
+//   description: "Admin all access to Suject"
+//   participant: "mp.takeda.tryme._Admin"
+//   operation: CREATE
+//   resource: "mp.takeda.tryme._SiteCoordinator"
+//   action: ALLOW
+// }
+
+rule AdminToAllAsset{
+  description: "Trial Users Have No access to Trial Asset"
+  participant: "mp.takeda.tryme._Admin"
+  operation: CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/*
+Super Admin ACL
+*/
+
+rule SuperAdminToSelf{
+  description: "Super Admin all access to other super admins"
+  participant: "mp.takeda.tryme._SuperAdmin"
+  operation: ALL
+  resource: "mp.takeda.tryme._SuperAdmin"
+  action: ALLOW
+}
+
+rule SuperAdminToAdmin{
+  description: "Super Admin can create Admin"
+  participant: "mp.takeda.tryme._SuperAdmin"
+  operation: ALL
+  resource: "mp.takeda.tryme._Admin"
+  action: ALLOW
+}
+
+rule SuperAdminToSponsor{
+  description: "Super Admin can create Sponsor"
+  participant: "mp.takeda.tryme._SuperAdmin"
+  operation: ALL
+  resource: "mp.takeda.tryme._Sponsor"
+  action: ALLOW
+}
+
+rule SuperAdminToConstSubjectAsset{
+  description: "Trial Users Have No access to Trial Asset"
+  participant: "mp.takeda.tryme._SuperAdmin"
+  operation: READ
+  resource: "mp.takeda.tryme.ConstSubjectAsset"
+  action: DENY
+}
+
+rule SuperAdminToAllAsset{
+  description: "Trial Users Have No access to Trial Asset"
+  participant: "mp.takeda.tryme._SuperAdmin"
+  operation: CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/*
+Network Admin ACL
+*/
+
+rule NetworkAdminAddTrialUser{
+  description: "Super Admin Can Only Add Trial Admin and Sponsor"
+  participant: "org.hyperledger.composer.system.NetworkAdmin"
+  operation: CREATE, READ, DELETE
+  resource: "mp.takeda.tryme._SuperAdmin"
+  action: ALLOW
+}
+
+rule SuperAdminTrialUser{
+  description: "Deny Super Admin To User TrialUser"
+  participant: "org.hyperledger.composer.system.NetworkAdmin"
+  operation: CREATE, UPDATE, DELETE
+  resource: "mp.takeda.tryme.*"
+  action: DENY
+}
+
+/**
+* Give all Participants access to the system
+**/
+
+rule AllAccess {
+  description: "AllAccess - grant everything to everybody"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

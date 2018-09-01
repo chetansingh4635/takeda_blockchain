@@ -1,0 +1,123 @@
+[
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "SU1"
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "Admin",
+        "userType" : "ADMIN",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false
+    },
+    {
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "SiteCoordinator",
+        "userType" : "SITE COORDINATOR",
+        "data" : {
+            "UserEmail" : "SC1",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    }
+    ,{
+        "_comment" : "-----------Cannot  Update  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            "UserEmail" : "patient22@tryme",
+            "UserAccess" : "PW"
+        },
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "-----------can not Update Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false
+
+    },
+    {
+        "_comment" : "----------can not Update Site Asset-----------",
+        "type" : "Asset",
+        "operation" : "Update",
+        "card" : "admin",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId":"PRA",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456"
+        },
+        "expect" : false
+    }
+]

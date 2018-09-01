@@ -1,0 +1,188 @@
+/**
+ * Write your model definitions here
+ */
+
+namespace mp.takeda.tryme
+
+
+enum SubjectStatus{
+  o QUALIFIED
+  o PRE_CONSENTED
+  o CONSENTED
+  o DEACTIVATED
+}
+
+enum DocumentType{
+  o ICF_OFFICIAL
+  o ICF_EXPLANATORY
+  o INVITATION_LETTER
+  o STUDY_DESCRIPTION
+  o FAQ
+}
+
+enum UserType{
+  o CRO
+  o PI
+  o SITE_COORDINATOR
+}
+
+asset Trial identified by TrialId{
+  o String TrialId
+  o String TrialName
+}
+
+asset Site identified by SiteId{
+  o String SiteId
+  o String SiteName
+  o String SiteLocation
+  o String OrganizationId
+  --> Trial Trial
+}
+
+asset SubjectAsset identified by SubjectId {
+  o String SubjectId
+  o SubjectStatus Status default = "QUALIFIED"
+  o String Email
+  o String ConsentData optional
+  o String PreConsentData optional
+  o String ConsentDataLocation optional
+  --> Site Site optional
+}
+
+asset ConstSubjectAsset identified by SubjectId {
+  o String SubjectId
+  o String Secret
+  o UserType CreatedBy
+  o String OrganizationId
+  --> Trial Trial
+  --> SubjectAsset Subject
+}
+
+
+asset Document identified by DocumentId {
+  o String DocumentId
+  o DocumentType Type 
+  o String Version
+  o String Language
+  o String DocumentLocation
+  o String Hash
+  --> Trial RelatedTrial optional // This is empty if Doc is not Global
+  --> Site RelatedSite optional // This is empty if Doc is Global
+}
+
+
+/**
+PARTICIPANTS DECLERATIONS
+*/
+
+abstract participant _SuperAdmin identified by UserEmail{
+  o String UserEmail
+}
+
+participant SuperAdmin extends _SuperAdmin{}
+
+abstract participant _Admin identified by UserEmail{
+  o String UserEmail
+  o String[] UserTrial
+}
+
+participant Admin extends _Admin{}
+
+abstract participant _Sponsor identified by UserEmail{
+  o String UserEmail
+  o String OrganizationId
+  o String[] UserTrial
+}
+participant Sponsor extends _Sponsor{}
+
+abstract participant _CRO identified by UserEmail{
+  o String UserEmail
+  o String OrganizationId
+  o String[] UserTrial
+  o String[] UserSite
+}
+
+participant CRO extends _CRO{}
+
+abstract participant _PI identified by UserEmail{
+  o String UserEmail
+  o String OrganizationId
+  o String[] UserTrial
+  o String[] UserSite
+}
+
+participant PI extends _PI{}
+
+abstract participant _SiteCoordinator identified by UserEmail{
+  o String UserEmail
+  o String[] UserTrial
+  o String[] UserSite
+}
+participant SiteCoordinator extends _SiteCoordinator{}
+
+
+participant Subject identified by UserEmail {
+  o String UserEmail
+  o String UserAccess
+}
+  
+  
+concept Access {
+  o String AccessKey
+  o String Secret
+}
+
+@returns(Access)
+transaction SignUp {
+  o String Email
+  o String Password
+  o String Trial
+}
+
+@returns(Access)
+transaction Login{
+  o String Email
+  o String Password
+  o String Trial
+}
+
+transaction DeregisterByUser{
+  o String Email
+}
+  
+transaction ChangePassword{
+  o String Email
+  o String OldPassword
+  o String NewPassword
+  o String RepeatPassword
+}
+  
+transaction ForgotPassword{
+  o String Email
+  o String NewPassword
+}
+  
+@returns(String)
+transaction QualifySubject {
+  o String Email
+  o String Trial
+  o String OrganizationId
+  o String CreatedBy
+}
+
+transaction ESignature{
+  o String Email
+  o String ConsentData
+  o String ConsentDataHash
+}
+  
+transaction WetSignature{
+  o String SubjectId
+  o String ConsentData
+  o String ConsentDataLocation
+}
+  
+transaction AssignSite{
+  o String SubjectId
+  o String SiteId
+}

@@ -1,0 +1,173 @@
+[
+    {
+        "_comment": "----cannot Add CRO------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "----cannot Add PI------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "----cannot Add Superadmin------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "ta@tryme"
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "---- cannot Add Sponsor------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice2@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false
+    },
+    {
+        "_comment" : "-----------Cannot add  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            
+            "UserEmail" : "patient22@tryme",
+            "UserAccess" :"PW"
+            
+            
+            
+            
+            
+        },
+        "expect" : false
+    }
+    ,
+
+    {
+        "_comment" : "-----------Can  not add  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "SubjectAsset",
+        "userType" : "SubjectAsset",
+        "data" : {
+            "SubjectId" : "patient",
+            "Email" : "patient@tryme"
+            
+        },
+        "expect" : false
+    }
+    
+
+    ,
+
+    {
+        "_comment" : "-----------Can not  add  Const Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "patient02",
+        "resource" : "ConstSubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "ConstSubjectAsset",
+        "data" : {
+            
+            "SubjectId" : "patient",
+            "Secret" : "8888",
+            "CreatedBy" : "CRO",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456",
+            "Subject": "patient@tryme"
+           
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : false
+    }
+    ,
+
+    
+
+    {
+        "_comment" : "----------cannot Add Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false
+
+    },
+    {
+        "_comment" : "----------cannot add site-----------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456" 
+        },
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "----------can not add Document---------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "patient02",
+        "resource" : "Document",
+        "userType" : "Document",
+        "data" : {
+            "DocumentId" : "Document1",
+            "Type":"ICF_OFFICIAL",
+            "Version" : "0.1",
+            "Language": "English",
+            "DocumentLocation" : "NY",
+            "Hash":"jhgsaiyd7376476hushyui873"
+        },
+        "expect" : false
+        
+    }
+
+
+    
+]

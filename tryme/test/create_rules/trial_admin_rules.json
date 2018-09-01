@@ -1,0 +1,278 @@
+[
+    {
+        "_comment": "----Add CRO------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : true
+    },
+
+    {
+        "_comment": "----Add Same CRO------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "CRO",
+        "userType" : "CRO",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false,
+        "recursive":true
+    },
+    {
+        "_comment": "----Add PI------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : true
+    },
+    {
+        "_comment": "---- Add PI with same ID------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "PI",
+        "userType" : "PI",
+        "data" : {
+            "UserEmail" : "alice1@tryme",
+            "OrganizationId":"Any",
+            "UserTrial" : [],
+            "UserSite" : []
+        },
+        "expect" : false,
+        "recursive":true
+
+    },
+    {
+        "_comment": "---- Add Superadmin------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "SuperAdmin",
+        "userType" : "SUPER ADMIN",
+        "data" : {
+            "UserEmail" : "ta@tryme"
+        },
+        "expect" : false
+    },
+    {
+        "_comment": "---- Add Sponsor------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice2@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : true
+    },
+    {
+        "_comment": "---- Add Same Sponsor------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Sponsor",
+        "userType" : "SPONSOR",
+        "data" : {
+            "UserEmail" : "alice2@tryme",
+            "UserTrial" : [],
+            "OrganizationId":"Any"
+        },
+        "expect" : false,
+        "recursive": true
+    },
+    {
+        "_comment" : "-----------Can  add  Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            
+            "UserEmail" : "patient22@tryme",
+            "UserAccess" :"PW"
+            
+        },
+        "expect" : true
+    },
+    {
+        "_comment" : "-----------Can Not add same Subject Participent----------- ",
+        "type" : "Participant",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Subject",
+        "userType" : "SUBJECT",
+        "data" : {
+            "UserEmail" : "patient22@tryme",
+            "UserAccess" :"PW"
+            
+        },
+        "expect" : false,
+        "recursive":true
+
+    }
+    ,
+
+    {
+        "_comment" : "-----------Can  not add  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "SubjectAsset",
+        "userType" : "SubjectAsset",
+        "data" : {
+            "SubjectId" : "patient",
+            "Email" : "patient@tryme"
+        },
+        "expect" : false
+    }
+    
+
+    ,
+
+    {
+        "_comment" : "-----------add Trial Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : true
+
+    },
+    {
+        "_comment" : "------can not add same Trial Asset------------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Trial",
+        "userType" : "Trial",
+        "data" : {
+            "TrialId" : "trial01",
+            "TrialName" : "v"
+        },
+        "expect" : false,
+        "recursive": true
+    },
+    {
+        "_comment" : "----------can add site-----------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456" 
+        },
+        "expect" : true
+    },
+    {
+        "_comment" : "----------can not add same site---------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Site",
+        "userType" : "Site",
+        "data" : {
+            "SiteId" : "site01",
+            "SiteName" : "v",
+            "SiteLocation" : "USA",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456"
+        },
+        "expect" : false,
+        "recursive": true
+    }
+    ,
+    {
+        "_comment" : "----------can not add Document---------",
+        "type" : "Asset",
+        "operation" : "Add",
+        "card" : "TA1",
+        "resource" : "Document",
+        "userType" : "Document",
+        "data" : {
+            "DocumentId" : "Document1",
+            "Type":"ICF_OFFICIAL",
+            "Version" : "0.1",
+            "Language": "English",
+            "DocumentLocation" : "NY",
+            "Hash":"jhgsaiyd7376476hushyui873"
+        },
+        "expect" : false
+        
+    }
+    ,
+    {
+        "_comment" : "-----------Can  not add  Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "TA1",
+        "resource" : "SubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "Subject Asset",
+        "data" : {
+            
+            "SubjectId" : "4444",
+           
+            "Email" : "patient@tryme"
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : false
+    }
+    ,
+    {
+        "_comment" : "-----------Can  not add  Const Subject Asset----------- ",
+        "type" : "Asset",
+        "operation" : "Add",                                                                                                                                                                                                    
+        "card" : "TA1",
+        "resource" : "ConstSubjectAsset",                                                                                                                                                                                                                                   
+        "userType" : "ConstSubjectAsset",
+        "data" : {
+            
+            "SubjectId" : "4444",
+            "Secret" : "8888",
+            "CreatedBy" : "CRO",
+            "OrganizationId" : "org1",
+            "Trial": "resource:mp.takeda.tryme.Trial#5456",
+            "Subject": "patient@tryme"
+           
+            
+        },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+        "expect" : false
+    }
+
+   
+    
+]

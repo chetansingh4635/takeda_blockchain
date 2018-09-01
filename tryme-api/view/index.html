@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9/core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/sha256.js"></script>
+    <title>Block Chain</title>
+</head>
+<style>
+    body,
+    html {
+        height: 100%;
+        width: 100%;
+        /* min-width: 768px; */
+    }
+
+    body {
+        background-image: url("background_leaves.png");
+        background-position: center;
+        background-size: cover;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .panel-body {
+        min-height: 250px;
+    }
+    .panel-login {
+        text-align: center;
+        position: relative;
+        border-color: #ccc;
+        -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .panel-login>.panel-heading {
+        color: #00415d;
+        background-color: #fff;
+        border-color: #fff;
+        text-align: center;
+    }
+
+    .panel-login>.panel-heading a {
+        text-decoration: none;
+        color: #666;
+        font-weight: bold;
+        font-size: 15px;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        transition: all 0.1s linear;
+    }
+
+    .panel-login>.panel-heading a.active {
+        color: #59B2E0;
+        font-size: 18px;
+    }
+
+    .panel-login>.panel-heading hr {
+        margin-top: 10px;
+        margin-bottom: 0px;
+        clear: both;
+        border: 0;
+        height: 1px;
+        background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+        background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+        background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+        background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+    }
+
+    .panel-login input[type="text"],
+    .panel-login input[type="email"],
+    .panel-login input[type="password"] {
+        height: 45px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        -webkit-transition: all 0.1s linear;
+        -moz-transition: all 0.1s linear;
+        transition: all 0.1s linear;
+    }
+
+    .panel-login input:hover,
+    .panel-login input:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        border-color: #ccc;
+    }
+
+    .btn {
+        background-color: #59B2E0;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        height: auto;
+        font-weight: normal;
+        padding: 14px 0;
+        text-transform: uppercase;
+        border-color: #59B2E6;
+    }
+
+    .btn:hover {
+        color: #fff;
+        background-color: #53A3CD;
+        border-color: #53A3CD;
+    }
+
+    .forgot-password {
+        text-decoration: underline;
+        color: #888;
+    }
+
+    .emailSingle {
+        margin: 38px 0;
+    }
+
+    .btn:active:focus,
+    .btn:focus {
+        outline: 0px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+
+    .lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+    }
+    .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+    }
+    @keyframes lds-ripple {
+    0% {
+        top: 28px;
+        left: 28px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: -1px;
+        left: -1px;
+        width: 58px;
+        height: 58px;
+        opacity: 0;
+    }
+    }
+    .overlay{
+        position: absolute;
+        top:0px;
+        bottom: 0px;
+        left: 0px;
+        right:0px;
+        padding-top:25%;
+        padding-left:50%;
+        margin-top: - 32px;
+        margin-left:-32px;
+        background-color:rgba(0,0,0,0.5);
+        z-index: 9;
+        display:none;
+    }
+
+</style>
+
+<body>
+    <div class="overlay">
+        <div class="lds-ripple"><div></div><div></div></div>
+    </div>
+    
+    <!-- Include the above in your HEAD tag -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <a href="#" class="active" id="login-form-link">Login</a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="#" id="signup-form-link">Sign Up</a>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="#" id="deregister-form-link">De-Register</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form id="login-form" method="post" role="form" style="display: block;">
+                                    <div class="form-group">
+                                        <input type="email" name="email"  tabindex="1" class="form-control email" placeholder="Email Address" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password"  tabindex="2" class="form-control password" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <a id="login-submit" class="form-control btn" tabindex="3" href="JavaScript:void(0)"> LOG IN</a>
+                                                <!-- <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn" value="Log In"> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="loginRes"></div>
+                                </form>
+                                <form id="signup-form" method="post" role="form" style="display: none;">
+
+                                    <div class="form-group">
+                                        <input type="email" name="email" tabindex="1" class="form-control email" placeholder="Email Address" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="password" tabindex="2" class="form-control password" placeholder="Password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <a id="signup-submit" class="form-control btn" tabindex="3" href="JavaScript:void(0)"> SIGN UP </a>
+                                                <!-- <input type="submit" name="signup-submit" id="signup-submit" class="form-control btn" value="Sign Up"> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="signupRes"></div>
+                                </form>
+                                <form id="deregister-form" method="post" role="form" style="display: none;">
+
+                                    <div class="form-group emailSingle">
+                                        <input type="email" name="email" tabindex="1" class="form-control email" placeholder="Email Address" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <a id="deregister-submit" class="form-control btn" tabindex="2" href="JavaScript:void(0)"> DE-REGISTER </a>
+                                                <!-- <input type="submit" name="deregister-submit" id="deregister-submit" tabindex="4" class="form-control btn" value="De-Register"> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="deregisterRes"></div>
+                                </form>
+
+                                <!-- <div class="alert alert-success" style="display: none;">
+                                    <strong>Success</strong>
+                                </div>
+
+                                <div class="alert alert-danger" style="display: none;">
+                                    <strong>Error!</strong>
+                                </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    $(function () {
+
+        $('#login-form-link').click(function (e) {
+            $("#login-form").delay(100).fadeIn(100);
+            $("#signup-form").fadeOut(100);
+            $('#signup-form-link').removeClass('active');
+            $("#deregister-form").fadeOut(100);
+            $('#deregister-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#signup-form-link').click(function (e) {
+            $("#signup-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $("#deregister-form").fadeOut(100);
+            $('#deregister-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+        $('#deregister-form-link').click(function (e) {
+            $("#deregister-form").delay(100).fadeIn(100);
+            $("#login-form").fadeOut(100);
+            $('#login-form-link').removeClass('active');
+            $("#signup-form").fadeOut(100);
+            $('#signup-form-link').removeClass('active');
+            $(this).addClass('active');
+            e.preventDefault();
+        });
+
+    });
+
+    // ajax call
+    //var url = "localhost:3007/api/";
+    $('#login-submit').click(function () {
+        $('.overlay').css('display','block');
+        var email = CryptoJS.SHA256($("#login-form .email").val()).toString();
+        var pass = CryptoJS.SHA256($("#login-form .email").val() + '+' +$("#login-form .password").val()).toString();
+        var client = "1111";
+
+        fetch('/api/subjectTransaction', {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded",
+                    "transaction": "LoginUser"
+                },
+                body: 'Email='+email+'&Password='+pass+'&Client='+client
+            })
+            .then((res) => {
+                res.json().then((result) => {
+                    console.log(result)
+                    $('#loginRes').show().text(JSON.stringify(result)).css('color','#3c763d');
+                    $('.overlay').css('display','none');
+                    localStorage.accesstoken = result.token;
+                })
+            }).catch((err) => {
+                console.log(err);
+                $('#loginRes').show().text(JSON.stringify(err)).css('color','#a94442');
+                $('.overlay').css('display','none');
+            });
+    });
+    $('#signup-submit').click(function () {
+        $('.overlay').css('display','block');
+        var email = CryptoJS.SHA256($("#signup-form .email").val()).toString();
+        var pass = CryptoJS.SHA256($("#signup-form .email").val() + '+' +$("#signup-form .password").val()).toString();
+        var client = "1111";
+
+        fetch('/api/adminTransaction', {
+                method: 'post',
+                headers: {
+                "Content-type": "application/x-www-form-urlencoded",
+                "transaction": "SignUpUser",
+                },
+                body: 'Email='+email+'&Password='+pass+'&Client='+client
+            })
+            .then((res) => {
+                res.json().then((result) => {
+                    console.log(result)
+                    $('#signupRes').show().text(JSON.stringify(result)).css('color','#3c763d');
+                    $('.overlay').css('display','none');
+                    
+                })
+            }).catch((err) => {
+                console.log(err);
+                $('#signupRes').show().text(JSON.stringify(err)).css('color','#a94442');
+                $('.overlay').css('display','none');
+            });
+    });
+    $('#deregister-submit').click(function () {
+        $('.overlay').css('display','block');
+        var email = CryptoJS.SHA256($("#deregister-form .email").val()).toString();
+        var client = "1111";
+
+        fetch('/api/subjectTransaction', {
+                method: 'post',
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded",
+                    "transaction": "DeregisterByUser",
+                    "accesstoken": localStorage.accesstoken
+                },
+                body: 'Email='+email
+            })
+            .then((res) => {
+                res.json().then((result) => {
+                    console.log(result)
+                    $('#deregisterRes').show().text(JSON.stringify(result)).css('color','#3c763d');
+                    $('.overlay').css('display','none');
+                })
+            }).catch((err) => {
+                console.log(err);
+                $('#deregisterRes').show().text(JSON.stringify(err)).css('color','#a94442');
+                $('.overlay').css('display','none');
+            });
+    });        
+</script>
+
+</html>
